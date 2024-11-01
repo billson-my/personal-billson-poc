@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Device Comparison</title>
+    <style>
+        body {
+            background-color: #121212;
+            /* Dark background */
+            color: #e0e0e0;
+            /* Light text */
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        th,
+        td {
+            text-align: left;
+            padding: 8px;
+            border: 1px solid #444;
+            /* Darker border */
+        }
+
+        th {
+            background-color: #222;
+            /* Darker header */
+            font-weight: bold;
+        }
+
+        /* Style for parent rows (1st key) */
+        .parent-row th {
+            background-color: #333;
+            /* Even darker gray for parent rows */
+            font-size: 1.1em;
+        }
+
+        /* Green highlight for differences */
+        .diff span {
+            background-color: #90EE90;
+            color: #121212;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Device Comparison</h1>
+
+    <script>
+        // Configuration: Replace with your actual JSON filenames
+        const jsonFilenames = ["https://raw.githubusercontent.com/billson-my/personal-billson-poc/refs/heads/main/spec-xiaomi-pad-6-pro.json",
+            "https://raw.githubusercontent.com/billson-my/personal-billson-poc/refs/heads/main/spec-xiaomi-pad-6s-pro.json",
+            "https://raw.githubusercontent.com/billson-my/personal-billson-poc/refs/heads/main/spec-xiaomi-pad-7-pro.json",
+            "https://raw.githubusercontent.com/billson-my/personal-billson-poc/refs/heads/main/spec-devices/spec-zte_nubia_red_magic_nova.json"
+        ];
+
+        // Function to fetch and parse JSON data
+        async function fetchJSON(filename) {
+            try {
+                const response = await fetch(filename);
+                const data = await response.json();
+                return data;
+            } catch (error) {
+                console.error(`Error fetching JSON: ${error}`);
+                return null;
+            }
+        }
+
+
+        function createTableColumnsAsString(keyLevelParent, values, level) {
+
+            console.log(level);
+
+
+            const row = document.createElement("tr");
+
+            if (level > 0) {
+                for (let i = 0; i < level; i++) {
+                    let cellIndent = document.createElement("th");
+                    cellIndent.classList.add("parent-row");
+                    // cellIndent.colSpan = 2;
+                    row.appendChild(cellIndent);
+                }
+            }
+
+                let specCell = document.createElement("td");
+
+                if(level > 0){
+                    specCell.colSpan = 2;
+                }else{
+                    specCell.colSpan = 3;
+                }
+                specCell.textContent = keyLevelParent;
+                row.appendChild(specCell);
+
+            
+
+            for (let i = 0; i < values.length; i++) {
+                const valueCell = document.createElement("td");
+
+                if (i > 0 && values[i] !== values[i - 1] && typeof values[i] === 'string') {
+                    valueCell.classList.add("diff");
+
+                    // Find and highlight character differences
+                    const string1 = values[i - 1];
+                    const string2 = values[i];
+                    let highlightedText = "";
+
+                    for (let j = 0; j < Math.max(string1.length, string2.length); j++) {
+                        if (string1[j] !== string2[j]) {
+                            highlightedText += `<span>${string2[j] || ''}</span>`; // Highlight different/added char
+                        } else {
+                            highlightedText += string1[j] || ''; // Keep the same character
+                        }
+                    }
+
+                    valueCell.innerHTML = highlightedText;
+                } else {
+                    valueCell.textContent = values[i];
+                }
+
+                row.appendChild(valueCell);
+            }
+
+            return row;
+        }
+
+
+        // Function to generate the entire table
+        async function generateComparisonTable() {
+            const table = document.createElement("table");
+
+            // Create dynamic header row
+            const headerRow = document.createElement("tr");
+            let cellSpec = document.createElement("th");
+            cellSpec.colSpan = 3;
+            cellSpec.textContent = "Specification";
+            cellSpec.classList.add("parent-row");
+            headerRow.appendChild(cellSpec);
+            // headerRow.innerHTML = "<th>Specification</th>"; // First column
+
+            const devices = await Promise.all(jsonFilenames.map(fetchJSON));
+            devices.forEach(deviceData => {
+                const brand = deviceData.brand; // Assuming brand is always present
+                const model = deviceData.model; // Assuming model is always present
+                headerRow.innerHTML += `<th>${brand} | ${model}</th>`;
+            });
+
+            table.appendChild(headerRow);
+
+            // console.log(devices[0]);
+
+            // Create a function to create dynamic rows for each key-value pair at parent level
+            handleKeyAsRow(devices, devices[0], table, 0);
+
+
+
+
+            document.body.appendChild(table);
+        }
+
+        async function handleKeyAsRow(devices, deviceKeys, table, level) {
+
+            for (const keyLevelParent in deviceKeys) {
+
+                // console.log(keyLevelParent);
+
+
+                if (deviceKeys.hasOwnProperty(keyLevelParent)) {
+
+                    const values = devices.map(device => device[keyLevelParent]);
+
+                    // Add parent row for sections
+                    if (typeof values[0] === 'object') {
+                        const parentRow = document.createElement("tr");
+                        if (level > 0) {
+                            let cellIndent = document.createElement("th");
+                            cellIndent.colSpan = level;
+                            parentRow.appendChild(cellIndent);
+                        }
+                        const parentCell = document.createElement("th");
+                        parentCell.colSpan = devices.length + 3; // Span across all data columns + spec column
+                        parentCell.textContent = keyLevelParent;
+                        parentCell.classList.add("parent-row");
+                        parentRow.appendChild(parentCell);
+                        table.appendChild(parentRow);
+
+                        handleKeyAsRow(values, values[0], table, 1);
+                    } else {
+
+                        // console.log(values);
+                        const row = createTableColumnsAsString(keyLevelParent, values, level);
+                        table.appendChild(row);
+                    }
+                }
+            }
+        }
+
+        generateComparisonTable();
+    </script>
+
+</body>
+
+</html>
