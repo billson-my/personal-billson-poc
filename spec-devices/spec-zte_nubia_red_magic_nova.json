@@ -1,0 +1,88 @@
+{
+  "brand": "ZTE",
+  "model": "nubia Red Magic Nova",
+  "release_date": "2024, September 05",
+  "launch": {
+    "announced": "2024, September 05",
+    "status": "Available. Released 2024, September 05"
+  },
+  "body": {
+    "dimensions": "253.3 x 164.6 x 7.3 mm (9.97 x 6.48 x 0.29 in)",
+    "weight": "530 g (1.17 lb)",
+    "build": "Glass front, aluminum frame, aluminum back",
+    "sim": "No",
+    "other": "RGB light on the back\nBuilt-in cooling fan (Illuminated)\nAviation-grade aluminum frame"
+  },
+  "display": {
+    "type": "IPS LCD, 144Hz, 550 nits",
+    "size": "10.9 inches",
+    "size-raw": "10.9 inches, 344.5 cm<sup>2</sup> (~82.6% screen-to-body ratio)",
+    "resolution": "1800 x 2880 pixels, 16:10 ratio (~312 ppi density)",
+    "refresh_rate": "144Hz",
+    "protection": "N/A",
+    "other": null
+  },
+  "platform": {
+    "os": "Android 14, Redmagic OS 9.5",
+    "chipset": "Qualcomm SM8650-AC Snapdragon 8 Gen 3 (4 nm)",
+    "cpu": "8-core (1x3.4GHz Cortex-X4 & 3x3.1GHz Cortex-A720 & 2x2.9GHz Cortex-A720 & 2x2.2GHz Cortex-A520)",
+    "gpu": "Adreno 750 (1 GHz)"
+  },
+  "memory": {
+    "card_slot": "No",
+    "internal": "256GB 12GB RAM, 512GB 16GB RAM, 1TB 24GB RAM",
+    "other": "UFS 4.0"
+  },
+  "main_camera": {
+    "modules": "50 MP",
+    "features": [
+      "LED flash",
+      "HDR",
+      "panorama"
+    ],
+    "video": "4K@30fps, 1080p@30fps"
+  },
+  "selfie_camera": {
+    "modules": "20 MP",
+    "features": [],
+    "video": "1080p@30fps"
+  },
+  "sound": {
+    "loudspeaker": "Yes, with stereo speakers (4 speakers)",
+    "jack": "No",
+    "other": "Snapdragon Sound"
+  },
+  "comms": {
+    "wlan": {
+      "standard": "Yes",
+      "features": []
+    },
+    "bluetooth": "Yes",
+    "positioning": "No",
+    "nfc": "Yes (no payments support)",
+    "infrared_port": null,
+    "radio": "No",
+    "usb": "USB Type-C, video output, magnetic connector pins"
+  },
+  "features": {
+    "sensors": [
+      "Fingerprint (side-mounted)",
+      "unspecified sensors"
+    ]
+  },
+  "battery": {
+    "type": "10100 mAh, non-removable",
+    "charging": "120W wired, 50% in 15 min, 100% in 45 min (advertised)"
+  },
+  "misc": {
+    "colors": [
+      "Cyclone",
+      "Snowfall"
+    ],
+    "price": {
+      "USD": null,
+      "EUR": "About 500"
+    }
+  },
+  "json-generated-on": "20241101T144010+0800"
+}
